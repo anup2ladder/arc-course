@@ -1,0 +1,41 @@
+# Book settings
+# Learn more at https://jupyterbook.org/customize/config.html
+
+title: Program synthesis and the ARC challenge
+author: Fausto Carcassi
+logo: logo.png
+
+execute:
+  execute_notebooks: force
+
+latex:
+  latex_documents:
+    targetname: book.tex
+
+bibtex_bibfiles:
+  - references.bib
+
+repository:
+  url: https://github.com/thelogicalgrammar/arc-course
+  path_to_book: docs  # Optional path to your book, relative to the repository root
+  branch: master  # Which branch of the repository should be used when creating links (optional)
+
+launch_buttons:
+  colab_url: "https://colab.research.google.com"
+
+# Add GitHub buttons to your book
+# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+html:
+  favicon: favicon.png
+  use_issues_button: true
+  use_repository_button: true
+
+parse:
+  myst_enable_extensions:
+    # allows us to use latex environments
+    - amsmath
+    - dollarmath
+
+exclude_patterns: [
+    LOTlib3
+]
