@@ -6,7 +6,9 @@ author: Fausto Carcassi
 logo: logo.png
 
 execute:
-  execute_notebooks: force
+  # this needs to be off because Github Actions does not support executing notebooks
+  # because it doesn't see the kernel and the action fails.
+  execute_notebooks: 'off'
 
 latex:
   latex_documents:
