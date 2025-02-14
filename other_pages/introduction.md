@@ -8,7 +8,7 @@ Each module consists of a video lecture and a little programming lab. The progra
 
 Please let me know if you have any comments, thoughts, questions, and feedback about the course. This form is completely anonymous and no identifiable information will be collected or stored. I hope you will consider this a safe space to ask questions or provide feedback.
 
-> **_NOTE_** Despite the fact that this form is anonymous, please still be respectful.
+> **NOTE** Despite the fact that this form is anonymous, please still be respectful.
 
 <iframe id="qualtrics-iframe" src="https://uva.fra1.qualtrics.com/jfe/form/SV_eeyyaul3x2iKHLU" height="500px" width="600px"></iframe>
 
