@@ -38,6 +38,9 @@ parse:
     - amsmath
     - dollarmath
 
+permissions:
+  contents: write
+
 exclude_patterns: [
     LOTlib3
 ]

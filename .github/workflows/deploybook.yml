@@ -33,23 +33,24 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    # (optional) Cache your executed notebooks between runs
-    # if you have config:
-    # execute:
-    #   execute_notebooks: cache
-    - name: cache executed notebooks
-      uses: actions/cache@v3
-      with:
-        path: _build/.jupyter_cache
-        key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
-
     # Copy labs files to docs/labs folder
     # This is necessary because the "colab" button 
     # searches the files in that directory!
     - name: Copy labs files to docs/labs
       run: |
-        mkdir -p blob/master/docs/labs/
-        cp -r labs/* blob/master/docs/labs/
+        mkdir -p docs/labs/
+        cp -r labs/* docs/labs/
+
+    # Commit the labs files
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add docs/labs
+        git commit -m "Automatically add labs files to docs/labs [skip ci]" || echo "No changes to commit"
+        git push
+        env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # Build the book
     - name: Build the book
