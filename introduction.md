@@ -10,19 +10,5 @@ Please let me know if you have any comments, thoughts, questions, and feedback a
 
 > **_NOTE_** Despite the fact that this form is anonymous, please still be respectful.
 
-<iframe src="https://uva.fra1.qualtrics.com/jfe/form/SV_eeyyaul3x2iKHLU" height="800px" width="600px"></iframe>
+<iframe id="qualtrics-iframe" src="https://uva.fra1.qualtrics.com/jfe/form/SV_eeyyaul3x2iKHLU" height="500px" width="600px"></iframe>
 
-<script>
-document.getElementById('qualtrics-iframe').onload = function() {
-    // Inject dark mode CSS into the iframe
-    var darkModeStyle = document.createElement('style');
-    darkModeStyle.innerHTML = `
-        body {
-            background-color: #121212;
-            color: #ffffff;
-        }
-        /* Add more styles as needed to match your dark mode theme */
-    `;
-    this.contentWindow.document.head.appendChild(darkModeStyle);
-};
-</script>
