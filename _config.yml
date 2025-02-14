@@ -3,7 +3,7 @@
 
 title: Program synthesis and the ARC challenge
 author: Fausto Carcassi
-logo: logo.png
+logo: assets/logo.png
 
 execute:
   # this needs to be off because Github Actions does not support executing notebooks
@@ -28,7 +28,7 @@ launch_buttons:
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
-  favicon: favicon.png
+  favicon: assets/favicon.png
   use_issues_button: true
   use_repository_button: true
 

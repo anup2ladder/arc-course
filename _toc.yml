@@ -1,29 +1,29 @@
 format: jb-book
-root: introduction
+root: other_pages/introduction
 
 chapters:
-  - file: module1
+  - file: modules/module1
     title: "Module 1: The basics of program synthesis"
     sections:
-      - file: lecture1
+      - file: lectures/lecture1
         title: "Lecture"
-      - file: lab1
+      - file: labs/lab1
         title: "Lab"
-  - file: module2
+  - file: modules/module2
     title: "Module 2: Searching for a program"
     sections:
-      - file: lecture2
+      - file: lectures/lecture2
         title: "Lecture"
-      - file: lab2
+      - file: labs/lab2
         title: "Lab"
-  - file: module3
+  - file: modules/module3
     title: "Module 3: The ARC challenge"
     sections:
-      - file: lecture3
+      - file: lectures/lecture3
         title: "Lecture"
-      - file: lab3
+      - file: labs/lab3
         title: "Lab"
-  - file: readings
+  - file: other_pages/readings
     title: Suggested reading
-  - file: acknowledgements
+  - file: other_pages/acknowledgements
     title: Acknowledgements
