@@ -48,8 +48,8 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add docs/labs
         git commit -m "Automatically add labs files to docs/labs [skip ci]" || echo "No changes to commit"
-        git push
-        env:
+        git push 
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # Build the book
