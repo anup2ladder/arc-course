@@ -43,6 +43,14 @@ jobs:
         path: _build/.jupyter_cache
         key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
 
+    # Copy labs files to docs/labs folder
+    # This is necessary because the "colab" button 
+    # searches the files in that directory!
+    - name: Copy labs files to docs/labs
+      run: |
+        mkdir -p blob/master/docs/labs/
+        cp -r labs/* blob/master/docs/labs/
+
     # Build the book
     - name: Build the book
       run: |
