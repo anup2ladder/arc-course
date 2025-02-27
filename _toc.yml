@@ -3,25 +3,37 @@ root: other_pages/introduction
 
 chapters:
   - file: modules/module1
-    title: "Module 1: The basics of program synthesis"
+    title: "Module 1: Introduction"
     sections:
       - file: lectures/lecture1
-        title: "Lecture"
-      - file: labs/lab1
-        title: "Lab"
+        title: "Lecture 1: Introduction"
   - file: modules/module2
     title: "Module 2: Searching for a program"
     sections:
       - file: lectures/lecture2
-        title: "Lecture"
-      - file: labs/lab2
+        title: "Lecture 2: Basic formal tools"
+      - file: labs/lab1
         title: "Lab"
   - file: modules/module3
-    title: "Module 3: The ARC challenge"
+    title: "Module 3: Symbolic search"
     sections:
       - file: lectures/lecture3
-        title: "Lecture"
+        title: "Lecture 3: Symbolic search"
+      - file: labs/lab2
+        title: "Lab"
+  - file: modules/module4
+    title: "Module 4: Symbolic search"
+    sections:
+      - file: lectures/lecture4
+        title: "Lecture 4: Neural search"
       - file: labs/lab3
+        title: "Lab"
+  - file: modules/module5
+    title: "Module 5: The ARC challenge"
+    sections:
+      - file: lectures/lecture5
+        title: "Lecture 5: The ARC challenge"
+      - file: labs/lab4
         title: "Lab"
   - file: other_pages/readings
     title: Suggested reading
