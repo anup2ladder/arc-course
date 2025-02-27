@@ -6,33 +6,33 @@ chapters:
     title: "Module 1: Introduction"
     sections:
       - file: lectures/lecture1
-        title: "Lecture 1: Introduction"
+        title: "Lecture"
   - file: modules/module2
-    title: "Module 2: Searching for a program"
+    title: "Module 2: Basic formal tools"
     sections:
       - file: lectures/lecture2
-        title: "Lecture 2: Basic formal tools"
+        title: "Lecture"
       - file: labs/lab1
         title: "Lab"
   - file: modules/module3
     title: "Module 3: Symbolic search"
     sections:
       - file: lectures/lecture3
-        title: "Lecture 3: Symbolic search"
+        title: "Lecture"
       - file: labs/lab2
         title: "Lab"
   - file: modules/module4
-    title: "Module 4: Symbolic search"
+    title: "Module 4: Neural search"
     sections:
       - file: lectures/lecture4
-        title: "Lecture 4: Neural search"
+        title: "Lecture"
       - file: labs/lab3
         title: "Lab"
   - file: modules/module5
     title: "Module 5: The ARC challenge"
     sections:
       - file: lectures/lecture5
-        title: "Lecture 5: The ARC challenge"
+        title: "Lecture"
       - file: labs/lab4
         title: "Lab"
   - file: other_pages/readings
