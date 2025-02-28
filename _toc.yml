@@ -35,7 +35,5 @@ chapters:
         title: "Lecture"
       - file: labs/lab4
         title: "Lab"
-  - file: other_pages/readings
-    title: Suggested reading
   - file: other_pages/acknowledgements
     title: Acknowledgements
