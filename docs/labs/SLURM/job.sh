@@ -1,7 +1,8 @@
 #!/bin/bash
 #Set job requirements
+#SBATCH -p=gpu
 #SBATCH --gpus=1
-#SBATCH -n 16
+#SBATCH -n 18
 #SBATCH -t 5:00
 
 module load 2024
