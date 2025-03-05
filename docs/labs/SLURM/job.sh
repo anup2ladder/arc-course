@@ -1,6 +1,6 @@
 #!/bin/bash
 #Set job requirements
-#SBATCH -p=gpu_a100
+#SBATCH -p gpu_a100
 #SBATCH --gpus=1
 #SBATCH -n 18
 #SBATCH -t 5:00
