@@ -5,8 +5,8 @@
 #SBATCH -n 18
 #SBATCH -t 5:00
 
-module load 2024
 conda deactivate
+module load 2024
 module load Anaconda3/2024.06-1
 conda activate arccourse
 
