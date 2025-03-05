@@ -11,6 +11,128 @@ import matplotlib.pyplot as plt
 import ipywidgets as widgets
 import itertools
 
+
+###### Define DSLs ####
+
+def define_bs_DSL():
+    bsgrammar = {
+        # A binary string can be a 0, a 1, or some transformation of string(s).
+        "S": [
+            (["0"], 0.2),
+            (["1"], 0.2),
+            # concatenate
+            (["C", "(", "S", ",", "S", ")"], 0.2),
+            # duplicate
+            (["D", "(", "S", ")"], 0.1),
+            # triplicate
+            (["T", "(", "S", ")"], 0.1),
+            # reverse
+            (["R", "(", "S", ")"], 0.1),
+            # negate
+            (["N", "(", "S", ")"], 0.1)
+        ]
+    }
+    
+    BS_NONTERMINALS  = list(bsgrammar.keys())
+    BS_TERMINALS = []
+    for l in bsgrammar.values():
+        for j in l:
+            for k in j[0]:
+                if k not in BS_NONTERMINALS:
+                    BS_TERMINALS.append(k)
+    
+    BS_TERMINALS = list(set(BS_TERMINALS))
+    
+    bs_eval_dict = {
+        "C": lambda x, y: str(x) + str(y),
+        "D": lambda s: str(s) * 2,
+        "T": lambda s: str(s) * 3,
+        "R": lambda s: str(s)[::-1],
+        "N": lambda s: str(s).translate({48: 49, 49: 48}),
+        # Bit-wiseduplication: duplicate each bit in the string individually.
+        "B": lambda s: "".join(c * 2 for c in str(s)),
+        # Swap halves: for odd-length strings, leave the middle bit in place.
+        "S": lambda s: (str(s)[(len(str(s)) // 2) + 1:] + str(s)[len(str(s)) // 2] + str(s)[:len(str(s)) // 2])
+             if len(str(s)) % 2 == 1 else (str(s)[len(str(s)) // 2:] + str(s)[:len(str(s)) // 2]),
+        # Rotate by one: rotate the string to the left by one position.
+        "O": lambda s: str(s)[1:] + str(s)[0] if len(str(s)) > 0 else str(s),
+        # Interleaving: merge two strings character by character; the remainder of the longer string is appended.
+        "I": lambda x, y: "".join(a + b for a, b in zip(str(x), str(y))) +
+             (str(x)[len(str(y)):] if len(str(x)) > len(str(y)) else str(y)[len(str(x)):]),
+    }
+
+    return bsgrammar, BS_NONTERMINALS, BS_TERMINALS, bs_eval_dict
+
+def define_lt_DSL():
+    ltgrammar = {
+        "T": [
+            (["LISTF"], 0.5),
+            (["compose", "(", "LISTF", ",", "LISTF", ")"], 0.5)
+        ],
+        # Atomic transformations
+        "LISTF": [
+            (["reverse"],                  0.2),
+            (["sort"],                     0.2),
+            (["map_", "(", "INTF", ")"],   0.2),
+            (["filter_", "(", "COND", ")"],0.2),
+            (["truncate", "(", "INT", ")"],0.2)
+        ],
+        # Operators for map: simple arithmetic operations on x.
+        "INTF": [
+            (["plus", "(", "INT", ")"],    0.25),
+            (["minus", "(", "INT", ")"],   0.25),
+            (["times", "(", "INT", ")"],   0.25),
+        ],
+        # Conditions for filter: e.g., keeping even or odd numbers.
+        "COND": [
+            (["even"], 0.5),
+            (["gt", "(", "INT", ")"],  0.3),
+            (["not_", "(", "COND", ")"], 0.1),
+            (["and_", "(", "COND", ",", "COND", ")"], 0.1),
+            (["or_", "(", "COND", ",", "COND", ")"], 0.1)
+        ],
+        "INT": [
+            ([str(i)], 1/5) for i in range(1,6)
+        ]
+    }
+    
+    LT_NONTERMINALS  = list(ltgrammar.keys())
+    LT_TERMINALS = []
+    for l in ltgrammar.values():
+        for j in l:
+            for k in j[0]:
+                if k not in LT_NONTERMINALS:
+                    LT_TERMINALS.append(k)
+    
+    LT_TERMINALS = list(set(LT_TERMINALS))
+    
+    lt_eval_dict = {
+        # Composes two list transformation functions.
+        "compose":  lambda f, g: lambda L: g(f(L)),
+        # Basic list transformations.
+        "reverse":  lambda L: list(reversed(L)),
+        "sort":     lambda L: sorted(L),
+        "truncate": lambda i: lambda L: L[:i],
+        # Higher-order functions that expect a function and return a list transformation.
+        "map_":     lambda f: lambda L: [f(x) for x in L],
+        "filter_":  lambda f: lambda L: [x for x in L if f(x)],
+        # Integer transformation functions used inside map.
+        "plus":     lambda n: lambda x: x + n,
+        "minus":    lambda n: lambda x: x - n,
+        "times":    lambda n: lambda x: x * n,
+        # Predicates for filtering.
+        "even":     lambda x: x % 2 == 0,
+        "gt":       lambda i: lambda x: x>i,
+        "and_":     lambda f, g: lambda x: f(x) and g(x),
+        "or_":      lambda f, g: lambda x: f(x) or g(x),
+        "not_":     lambda f: lambda x: not f(x),
+    }
+
+    return ltgrammar, LT_NONTERMINALS, LT_TERMINALS, lt_eval_dict
+
+ltgrammar, lt_nonterminals, lt_terminals, lt_eval_dict = define_lt_DSL()
+bsgrammar, bs_nonterminals, bs_terminals, bs_eval_dict = define_bs_DSL()
+
 ###### For Lab 1 ######
 import cairosvg
 import io
