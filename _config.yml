@@ -3,7 +3,9 @@
 
 title: Program synthesis and the ARC challenge
 author: Fausto Carcassi
+copyright: 2025
 logo: assets/logo.png
+only_build_toc_files: true
 
 execute:
   # this needs to be off because Github Actions does not support executing notebooks
@@ -25,8 +27,6 @@ repository:
 launch_buttons:
   colab_url: "https://colab.research.google.com"
 
-# Add GitHub buttons to your book
-# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
   favicon: assets/favicon.png
   use_issues_button: true

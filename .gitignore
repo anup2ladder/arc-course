@@ -1,5 +1,6 @@
 _build
 labs/*/
+!labs/SLURM/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
