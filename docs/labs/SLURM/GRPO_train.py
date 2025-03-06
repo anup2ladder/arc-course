@@ -33,10 +33,9 @@ from unsloth.chat_templates import get_chat_template
 from vllm import SamplingParams
 
 if __name__=="__main__":
-
-    max_seq_length = 1024 
-    # Larger rank = smarter, but slower
-    lora_rank = 64 
+    
+    max_seq_length = 1024 # Can increase for longer reasoning traces
+    lora_rank = 64 # Larger rank = smarter, but slower
 
     print(torch.cuda.is_available())
     print(torch.cuda.device_count())
@@ -67,6 +66,9 @@ if __name__=="__main__":
         'lt_terminals': lt_terminals
     })
 
+    # this is already a PeftModelForCausalLM since that's
+    # how it was saved in SFT_train - no need
+    # to peftalize it
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name = "SLURM_finetuned_lt",
         max_seq_length=max_seq_length,
@@ -74,26 +76,6 @@ if __name__=="__main__":
         load_in_4bit=True,
         # Enable vLLM fast inference
         fast_inference = True, 
-    )
-
-    model = FastLanguageModel.get_peft_model(
-        model,
-        # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
-        r=lora_rank, 
-        # Which parts of the model are we gonna train?
-        target_modules=[
-            "q_proj", 
-            "k_proj", 
-            "v_proj", 
-            "o_proj",
-            "gate_proj", 
-            "up_proj", 
-            "down_proj",
-        ], 
-        lora_alpha=lora_rank,
-        # Enable long context finetuning
-        use_gradient_checkpointing="unsloth", 
-        random_state=3407,
     )
 
     trainer = GRPOTrainer(
@@ -105,8 +87,10 @@ if __name__=="__main__":
             direct_lt_correctness_reward_func
         ],
         args=GRPOConfig(
-                # use vLLM for fast inference!
-                use_vllm=True, 
+                # In theory one could use vLLM for fast inference,
+                # But at the time of writing this does not work:
+                # https://github.com/unslothai/unsloth/issues/1877
+                # use_vllm = True, 
                 learning_rate=5e-6,
                 adam_beta1=0.9,
                 adam_beta2=0.99,
@@ -126,8 +110,8 @@ if __name__=="__main__":
                 max_completion_length=32,
                 # Set to 1 for a full training run
                 num_train_epochs=1, 
-                max_steps=500,
-                save_steps=50,
+                max_steps=50,
+                save_steps=100,
                 max_grad_norm=0.1,
                 # Can use Weights & Biases
                 report_to="none", 
@@ -138,4 +122,4 @@ if __name__=="__main__":
     )
     
     trainer.train()
-    model.save_lora('SLURM_GRPO_lt')
+    trainer.save_model('SLURM_GRPO')
