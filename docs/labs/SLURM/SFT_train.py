@@ -1,5 +1,9 @@
 import sys
-sys.path.append("..")#
+sys.path.append("..")
+
+# NOTE TO MYSELF: Run export LD_LIBRARY_PATH=/home/fausto/mambaforge/envs/arccourse/lib:$LD_LIBRARY_PATH
+# if you get complaints about GLIBCXX_3.4.29 - somehow the right compiler is not being
+# imported by default when initializing the environment
 
 import re
 import itertools
@@ -90,7 +94,8 @@ if __name__=="__main__":
         ltgrammar, 
         lt_system_prompt, 
         eval_dict=lt_eval_dict, 
-        n_tasks=5000, 
+        n_tasks=5000,
+        # n_tasks=50,
         sentences_pool=sentences_pool
     )
 
