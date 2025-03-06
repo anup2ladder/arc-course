@@ -41,18 +41,19 @@ if __name__=="__main__":
     print(torch.cuda.current_device())
     print(torch.cuda.get_device_name(0))
 
-    ltgrammar, LT_NONTERMINALS, LT_TERMINALS, lt_eval_dict = define_lt_DSL()
+    ltgrammar, lt_nonterminals, lt_terminals, lt_eval_dict = define_lt_DSL()
 
     model, tokenizer = FastLanguageModel.from_pretrained(
-        model_name = "Qwen/Qwen2.5-0.5B-Instruct",
-        max_seq_length = max_seq_length,
+        # model_name = "Qwen/Qwen2.5-0.5B-Instruct",
+        model_name="unsloth/Qwen2.5-14B-Instruct-bnb-4bit",
+        max_seq_length=max_seq_length,
         # False for LoRA 16bit
-        load_in_4bit = True, 
+        load_in_4bit=True, 
         # Enable vLLM fast inference
-        fast_inference = True, 
-        max_lora_rank = lora_rank,
+        fast_inference=True, 
+        max_lora_rank=lora_rank,
         # Reduce if out of memory
-        gpu_memory_utilization = 0.5, 
+        gpu_memory_utilization=0.5, 
     )
     
     model = FastLanguageModel.get_peft_model(
@@ -60,7 +61,7 @@ if __name__=="__main__":
         # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
         r=lora_rank, 
         # Which parts of the model are we gonna train?
-        target_modules = [
+        target_modules=[
             "q_proj", 
             "k_proj", 
             "v_proj", 
