@@ -18,7 +18,8 @@ from symbolic_utilities import enumerate_full_sentences, define_lt_DSL
 from neural_utilities import \
     extract_xml_answer, extract_xml_reasoning, produce_tasks, get_data, \
     print_func, lt_correctness_reward_func, \
-    xmlcount_reward_func, soft_format_reward_func, strict_format_reward_func
+    xmlcount_reward_func, soft_format_reward_func, strict_format_reward_func, \
+    direct_cfg_reward_func, direct_lt_correctness_reward_func
 
 # NOTE: PatchFastRL needs to run **before** the imports below
 from unsloth import FastLanguageModel, is_bfloat16_supported, PatchFastRL
