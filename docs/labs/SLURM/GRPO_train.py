@@ -8,6 +8,7 @@ import time
 import random
 from collections import Counter
 from pprint import pprint
+import matplotlib.pyplot as plt
 
 import numpy as np
 import pandas as pd
@@ -105,12 +106,12 @@ if __name__=="__main__":
                 # Increase to 4 for smoother training
                 gradient_accumulation_steps=1, 
                 # Decrease if out of memory
-                num_generations=8, 
+                num_generations=32, 
                 max_prompt_length=256,
                 max_completion_length=32,
                 # Set to 1 for a full training run
-                num_train_epochs=1, 
-                max_steps=50,
+                num_train_epochs=1,
+                max_steps=5000,
                 save_steps=100,
                 max_grad_norm=0.1,
                 # Can use Weights & Biases
@@ -123,3 +124,15 @@ if __name__=="__main__":
     
     trainer.train()
     trainer.save_model('SLURM_GRPO')
+
+    smoothed_rewards = df_history['rewards/direct_lt_correctness_reward_func'].rolling(window=50).mean()
+
+    # Plotting the raw reward and the trend (smoothed reward)
+    plt.figure(figsize=(20, 5))
+    plt.plot(df_history.index, smoothed_rewards, label="Trend (Moving Average)", color="red", linewidth=2)
+    plt.xlabel("Episode")
+    plt.ylabel("Reward")
+    plt.ylim(0,3)
+    plt.title("Reward Trend using Moving Average")
+    plt.legend()
+    plt.savefig('./progress.png', dpi=300)
