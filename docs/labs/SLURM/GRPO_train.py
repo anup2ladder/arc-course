@@ -78,7 +78,7 @@ if __name__=="__main__":
 
     lt_system_prompt = ""
 
-    # get 3000 sentences
+    # get 5000 sentences
     sentences_pool = []
     for i, sent in enumerate(enumerate_full_sentences('T', ltgrammar, max_depth=5)):
         if i==5000:
@@ -165,7 +165,7 @@ if __name__=="__main__":
             max_completion_length = 32,
             # Set to 1 for a full training run
             num_train_epochs = 1, 
-            max_steps = 1000,
+            max_steps = 500,
             save_steps = 50,
             max_grad_norm = 0.1,
             # Can use Weights & Biases
