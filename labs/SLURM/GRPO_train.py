@@ -95,7 +95,7 @@ if __name__=="__main__":
                 optim = "adamw_8bit",
                 logging_steps = 1,
                 bf16 = is_bfloat16_supported(),
-                fp16 = not is_bfloat16_supported(),q
+                fp16 = not is_bfloat16_supported(),
                 per_device_train_batch_size = 1,
                 # Increase to 4 for smoother training
                 gradient_accumulation_steps = 1, 
