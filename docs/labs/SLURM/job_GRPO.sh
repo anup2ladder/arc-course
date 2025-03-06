@@ -19,4 +19,4 @@ module load GCC/13.3.0
 # so we refer to it as cuda:0
 export CUDA_VISIBLE_DEVICES=0
 
-python SFT_train.py
+python GRPO_train.py
