@@ -44,39 +44,6 @@ if __name__=="__main__":
 
     ltgrammar, lt_nonterminals, lt_terminals, lt_eval_dict = define_lt_DSL()
 
-    model, tokenizer = FastLanguageModel.from_pretrained(
-        # model_name = "Qwen/Qwen2.5-0.5B-Instruct",
-        model_name="unsloth/Qwen2.5-14B-Instruct-bnb-4bit",
-        max_seq_length=max_seq_length,
-        # False for LoRA 16bit
-        load_in_4bit=True, 
-        # Enable vLLM fast inference
-        fast_inference=True, 
-        max_lora_rank=lora_rank,
-        # Reduce if out of memory
-        gpu_memory_utilization=0.5, 
-    )
-    
-    model = FastLanguageModel.get_peft_model(
-        model,
-        # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
-        r=lora_rank, 
-        # Which parts of the model are we gonna train?
-        target_modules=[
-            "q_proj", 
-            "k_proj", 
-            "v_proj", 
-            "o_proj",
-            "gate_proj", 
-            "up_proj", 
-            "down_proj",
-        ], 
-        lora_alpha = lora_rank,
-        # Enable long context finetuning
-        use_gradient_checkpointing = "unsloth", 
-        random_state = 3407,
-    )
-
     lt_system_prompt = ""
 
     # get 5000 sentences
@@ -99,41 +66,13 @@ if __name__=="__main__":
         'lt_terminals': lt_terminals
     })
 
-    trainer = SFTTrainer(
-        model=model,
-        tokenizer=tokenizer,
-        train_dataset=data,
-        dataset_text_field="text",
-        max_seq_length=max_seq_length,
-        dataset_num_proc=2,
-        packing=True,
-        args=TrainingArguments(
-            learning_rate=3e-4,
-            lr_scheduler_type="linear",
-            per_device_train_batch_size=8,
-            gradient_accumulation_steps=2,
-            num_train_epochs=4,
-            fp16=not is_bfloat16_supported(),
-            bf16=is_bfloat16_supported(),
-            logging_steps=1,
-            optim="adamw_8bit",
-            weight_decay=0.01,
-            warmup_steps=10,
-            output_dir="SLURM_lt_direct_output",
-            seed=0,
-            save_steps=40
-        ),
-    )
-    
-    trainer.train()
-
-    model.save_lora('SLURM_finetuned_lt')
-
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name = "SLURM_finetuned_lt",
         max_seq_length=max_seq_length,
         dtype=None,
         load_in_4bit=True,
+        # Enable vLLM fast inference
+        fast_inference = True, 
     )
 
     trainer = GRPOTrainer(
