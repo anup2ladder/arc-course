@@ -76,43 +76,43 @@ if __name__=="__main__":
     )
 
     trainer = GRPOTrainer(
-    model=model,
-    processing_class=tokenizer,
-    reward_funcs=[
-        print_func,
-        direct_cfg_reward_func,
-        direct_lt_correctness_reward_func
-    ],
-    args=GRPOConfig(
-            # use vLLM for fast inference!
-            use_vllm = True, 
-            learning_rate = 5e-6,
-            adam_beta1 = 0.9,
-            adam_beta2 = 0.99,
-            weight_decay = 0.1,
-            warmup_ratio = 0.1,
-            lr_scheduler_type = "cosine",
-            optim = "adamw_8bit",
-            logging_steps = 1,
-            bf16 = is_bfloat16_supported(),
-            fp16 = not is_bfloat16_supported(),
-            per_device_train_batch_size = 1,
-            # Increase to 4 for smoother training
-            gradient_accumulation_steps = 1, 
-            # Decrease if out of memory
-            num_generations = 8, 
-            max_prompt_length = 256,
-            max_completion_length = 32,
-            # Set to 1 for a full training run
-            num_train_epochs = 1, 
-            max_steps = 500,
-            save_steps = 50,
-            max_grad_norm = 0.1,
-            # Can use Weights & Biases
-            report_to = "none", 
-            output_dir = "SLURM_outputs",
-            resume_from_checkpoint=True
-        ),
+        model=model,
+        processing_class=tokenizer,
+        reward_funcs=[
+            print_func,
+            direct_cfg_reward_func,
+            direct_lt_correctness_reward_func
+        ],
+        args=GRPOConfig(
+                # use vLLM for fast inference!
+                # use_vllm = True, 
+                learning_rate = 5e-6,
+                adam_beta1 = 0.9,
+                adam_beta2 = 0.99,
+                weight_decay = 0.1,
+                warmup_ratio = 0.1,
+                lr_scheduler_type = "cosine",
+                optim = "adamw_8bit",
+                logging_steps = 1,
+                bf16 = is_bfloat16_supported(),
+                fp16 = not is_bfloat16_supported(),q
+                per_device_train_batch_size = 1,
+                # Increase to 4 for smoother training
+                gradient_accumulation_steps = 1, 
+                # Decrease if out of memory
+                num_generations = 8, 
+                max_prompt_length = 256,
+                max_completion_length = 32,
+                # Set to 1 for a full training run
+                num_train_epochs = 1, 
+                max_steps = 500,
+                save_steps = 50,
+                max_grad_norm = 0.1,
+                # Can use Weights & Biases
+                report_to = "none", 
+                output_dir = "SLURM_outputs",
+                resume_from_checkpoint=True
+            ),
         train_dataset=data,
     )
     
