@@ -33,9 +33,10 @@ from unsloth.chat_templates import get_chat_template
 from vllm import SamplingParams
 
 if __name__=="__main__":
-    
-    max_seq_length = 1024 # Can increase for longer reasoning traces
-    lora_rank = 64 # Larger rank = smarter, but slower
+
+    max_seq_length = 1024 
+    # Larger rank = smarter, but slower
+    lora_rank = 64 
 
     print(torch.cuda.is_available())
     print(torch.cuda.device_count())
@@ -75,6 +76,26 @@ if __name__=="__main__":
         fast_inference = True, 
     )
 
+    model = FastLanguageModel.get_peft_model(
+        model,
+        # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
+        r=lora_rank, 
+        # Which parts of the model are we gonna train?
+        target_modules=[
+            "q_proj", 
+            "k_proj", 
+            "v_proj", 
+            "o_proj",
+            "gate_proj", 
+            "up_proj", 
+            "down_proj",
+        ], 
+        lora_alpha=lora_rank,
+        # Enable long context finetuning
+        use_gradient_checkpointing="unsloth", 
+        random_state=3407,
+    )
+
     trainer = GRPOTrainer(
         model=model,
         processing_class=tokenizer,
@@ -85,37 +106,36 @@ if __name__=="__main__":
         ],
         args=GRPOConfig(
                 # use vLLM for fast inference!
-                # use_vllm = True, 
-                learning_rate = 5e-6,
-                adam_beta1 = 0.9,
-                adam_beta2 = 0.99,
-                weight_decay = 0.1,
-                warmup_ratio = 0.1,
-                lr_scheduler_type = "cosine",
-                optim = "adamw_8bit",
-                logging_steps = 1,
-                bf16 = is_bfloat16_supported(),
-                fp16 = not is_bfloat16_supported(),
-                per_device_train_batch_size = 1,
+                use_vllm=True, 
+                learning_rate=5e-6,
+                adam_beta1=0.9,
+                adam_beta2=0.99,
+                weight_decay=0.1,
+                warmup_ratio=0.1,
+                lr_scheduler_type="cosine",
+                optim="adamw_8bit",
+                logging_steps=1,
+                bf16=is_bfloat16_supported(),
+                fp16=not is_bfloat16_supported(),
+                per_device_train_batch_size=1,
                 # Increase to 4 for smoother training
-                gradient_accumulation_steps = 1, 
+                gradient_accumulation_steps=1, 
                 # Decrease if out of memory
-                num_generations = 8, 
-                max_prompt_length = 256,
-                max_completion_length = 32,
+                num_generations=8, 
+                max_prompt_length=256,
+                max_completion_length=32,
                 # Set to 1 for a full training run
-                num_train_epochs = 1, 
-                max_steps = 500,
-                save_steps = 50,
-                max_grad_norm = 0.1,
+                num_train_epochs=1, 
+                max_steps=500,
+                save_steps=50,
+                max_grad_norm=0.1,
                 # Can use Weights & Biases
-                report_to = "none", 
-                output_dir = "SLURM_outputs",
+                report_to="none", 
+                output_dir="SLURM_outputs",
                 resume_from_checkpoint=True
             ),
         train_dataset=data,
     )
     
     trainer.train()
-
     model.save_lora('SLURM_GRPO_lt')
