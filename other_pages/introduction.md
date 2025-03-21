@@ -6,9 +6,22 @@ The main design decision behind this course was whether to focus on the tools an
 
 This mini-course is organized into five modules. Module 1 is a general introduction to the problem of program synthesis and its relation to intelligence. Module 2 covers some formal tools that are commonly used to develop program synthesis systems. Module 3 and 4 summarize a variety of ways to approach the problem of searching for programs, respectively with symbolic and neuro(symbolic) methods. Module 5 is a review of some exciting approaches to the ARC challenge. 
 
-All modules except for 1 consist of a video lecture and a programming lab. The programming lab is a Jupyter notebook that you can download and run locally on your computer (you can also run it on google Colab in principle but I haven't fixed the installs/imports yet). If there is interest, I will also record videos walking step-by-step through the labs (let me know with the feedback form below, in a youtub comment, or just via email). 
+All modules except for 1 consist of a video lecture and a programming lab. The programming lab is a Jupyter notebook that you can download and run locally on your computer (you can also run it on google Colab in principle but I haven't fixed the installs/imports yet). If there is interest, I will also record videos walking step-by-step through the labs (let me know with the feedback form below, in a youtube comment, or just via the email on my website). This course is work in progress and was done somewhat quickly at various levels of exhaustion and in between other obligations, so it is still rough around the edges. Nonetheless, I hope you find it useful. Please let me know if you have any comments, thoughts, questions, and/or feedback about the course. 
 
-This course is work in progress and was done somewhat quickly, so it is still rough around the edges. Nonetheless, I hope you find it useful. Please let me know if you have any comments, thoughts, questions, and/or feedback about the course. This form is completely anonymous and no identifiable information will be collected or stored. I will use the feedback to improve the course and make it more useful to you. Thank you!
+Finally, I wanted to mention some some impressive & awesome people at the intersection of cognition and program synthesis that you might want to keep on your radar (in random order, mostly young scholars): 
+
+- [Steven Piantadosi](https://colala.berkeley.edu/people/piantadosi/)
+- [Bonan Zhao](https://zhaobn.github.io/)
+- [Tom Griffiths](https://cocosci.princeton.edu/tom/index.php)
+- [Lio Wong](https://web.mit.edu/zyzzyva/www/academic.html)
+- [Gabe Grand](https://www.gabegrand.com/)
+- [Kevin Ellis](https://www.cs.cornell.edu/~ellisk/)
+- [Josh Rule](https://joshrule.com/)
+- [Tan Zhi Xuan](https://ztangent.github.io/)
+- [Tomer Ullman](https://www.tomerullman.org/)
+- [Neil Bramley](https://www.bramleylab.ppls.ed.ac.uk/member/neil/)
+
+The form below is completely anonymous and no identifiable information will be collected or stored. I will use the feedback to improve the course and make it more useful to you. Thank you!
 
 > **NOTE** I know, this is the internet and this form is anonymous, but please still be respectful.
 
