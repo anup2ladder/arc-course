@@ -281,3 +281,35 @@ def direct_lt_correctness_reward_func(prompts, completions, examples, **kwargs) 
         else:
             print(f"{answer} not in cfg")
     return utilities
+
+def direct_conciseness_reward_func(prompts, completions, examples, **kwargs) -> list[float]:
+    """
+    This is meant to make the model avoid redundant operations.
+    However, be careful not to make it bigger than the accuracy reward,
+    otherwise the model will just end up generating empty strings!
+    """
+    utilities = [0]*len(completions)
+    responses = [
+        completion[0]['content'] 
+        for completion in completions
+    ]
+    # Check if code runs
+    for i, answer in enumerate(responses):
+        bonus = 0
+        # add a monotonically decreasing function of length
+        # for correct generations.
+        # This penalizes length while making sure correct programs have stricly
+        # higher utility than incorrect ones
+        if is_in_lt_CFG(answer):
+            try:
+                f = eval(answer, lt_eval_dict)
+                # if predictions are perfect, try to minimize length of formula
+                if all([f(inp)==out for inp, out in examples[i]]):
+                    # this is higher for shorter generations
+                    utilities[i] = np.exp(-len(answer)*0.01)
+            except Exception:
+                pass
+        else:
+            # function was not in CFG
+            print(f"{answer} not in cfg")    
+    return utilities

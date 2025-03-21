@@ -126,6 +126,7 @@ if __name__=="__main__":
     trainer.save_model('SLURM_GRPO')
     trainer.save_state()
 
+    df_history = pd.DataFrame(trainer.state.log_history)
     smoothed_rewards = df_history['rewards/direct_lt_correctness_reward_func'].rolling(window=50).mean()
 
     # Plotting the raw reward and the trend (smoothed reward)
