@@ -98,7 +98,7 @@ def extract_xml_reasoning(text: str) -> str:
     reasoning = reasoning.split("</reasoning>")[0]
     return reasoning.strip()
 
-def produce_tasks(eval_dict, sentences_pool=None, n_inputs=3, n_tasks=10):
+def produce_tasks(eval_dict, sentences_pool=None, n_inputs=3, n_tasks=10, n_transduction=0):
     
     if sentences_pool is None:
         sentences = []
@@ -108,6 +108,7 @@ def produce_tasks(eval_dict, sentences_pool=None, n_inputs=3, n_tasks=10):
             while random_sentence in sentences:
                 random_sentence = "".join(tree_to_sentence(generate_tree("T", ltgrammar)))
             sentences.append(random_sentence)
+        np.random.shuffle(sentences)
     else:
         sentences = choice(sentences_pool, n_tasks, replace=False)
     
@@ -115,7 +116,7 @@ def produce_tasks(eval_dict, sentences_pool=None, n_inputs=3, n_tasks=10):
     for i, sent in enumerate(sentences):
         inputs = [
             list(randint(0, 10, randint(2, 6)))
-            for _ in range(n_inputs)
+            for _ in range(n_inputs+n_transduction+1)
         ]
         random_f = interpret(sent, eval_dict)
         outputs = [
@@ -123,14 +124,27 @@ def produce_tasks(eval_dict, sentences_pool=None, n_inputs=3, n_tasks=10):
             for i in inputs
         ]
         examples = list(zip(inputs,outputs))
-        tasks.append({
+        dictionary = {
+            # sentence
             'sentence': sent,
-            'examples': examples,
-            'task': "\n".join([f"-{i} -> {o}" for i, o in examples])
-        })
+            # examples for model for induction
+            'examples': examples[:n_inputs],
+            # user prompt for LLM 
+            'task': (
+                "\n".join([f"-{i} -> {o}" for i, o in examples[:n_inputs]]) + "\n" +
+                "\n".join([f"-{i} -> ?"   for i, _ in examples[n_inputs+1:]])
+            )
+        }
+
+        if n_transduction > 0:
+            # add correct output for transduction
+            dictionary['answer_transduction'] = examples[n_inputs+1:] 
+
+        tasks.append(dictionary)
+
     return tasks
 
-def get_data(grammar, system_prompt, **kwargs):
+def get_data(grammar, system_prompt, transductive=False, **kwargs):
     data = produce_tasks(**kwargs)
     data = Dataset.from_list(data)
     data = data.map(lambda x: {
