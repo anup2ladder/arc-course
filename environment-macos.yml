@@ -1,0 +1,33 @@
+name: arc-course-mac
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - ipykernel
+  - ipython
+  - jupyter
+  - matplotlib
+  - pandas
+  - seaborn
+  - scikit-learn
+  - numpy
+  - scipy
+  - lightgbm
+  - xgboost
+  - catboost
+  - click
+  - pytest
+  - rich
+  - pip:
+      - torch
+      - torchvision
+      - torchaudio
+      - duckdb
+      - openml
+      - optuna
+      - mne
+      - missingno
+      - better-exceptions
+      - loguru
